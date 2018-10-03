@@ -66,10 +66,25 @@ def backup(args):
         rsync_process = Popen(rsync_command, stdout=progress_file, stderr=error_file)
         rsync_process.wait()
 
+    # some cleaning
+    if progress_filepath and exists(progress_filepath):
+        remove(progress_filepath)
+
+    if error_filepath and exists(error_filepath):
+        is_errors = not stat(error_filepath).st_size == 0
+        if not is_errors:
+            remove(error_filepath)
+            user_message = 'sucessfull save of {}.'.format(rule.source.dirpath)
+        else:
+            with open(error_filepath, 'r') as error_file:
+                last_error = error_file.readlines()[-1].decode()
+                user_message = 'finished with errors on save of {}: {}'.format(rule.source.dirpath, last_error)
+
+    notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(rule.source.dirpath), user_message]
+    call(notify_command)
+
     logging.debug('done')
 
-    # clean
-    # remove(progress_filepath)
 
 
 def main():
