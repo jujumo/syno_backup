@@ -1,0 +1,16 @@
+{
+  "source": {
+    "dirpath": "/tmp/source"
+  },
+  "dest": {
+    "dirpath": "/tmp/dest"
+  },
+  "options": {
+    "exclude": ["temp", "Thumbs.db", "log"]
+  },
+  "log": {
+    "success": "/tmp/source/log/%Y-%m-%d-%H-%M_log.txt",
+    "error": "/tmp/source/log/%Y-%m-%d-%H-%M_errors_.txt",
+    "progress": "/tmp/source/log/%Y-%m-%d-%H-%M_progress.txt"
+  }
+}

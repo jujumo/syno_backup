@@ -1,0 +1,23 @@
+{
+  "source": {
+    "dirpath": "/tmp/source"
+  },
+  "dest": {
+    "dirpath": "/tmp/dest/latest",
+	"backup": "/tmp/dest/%Y-%m-%d-%H-%M"
+    "ssh": {
+      "url": "example.com",
+      "port": 21,
+      "user": "user",
+      "key": "/var/services/homes/user/.ssh/id_rsa"
+    }
+  },
+  "options": {
+    "exclude": ["temp", "Thumbs.db", "log"]
+  },
+  "log": {
+    "success": "/tmp/source/log/%Y-%m-%d-%H-%M_log.txt",
+    "error": "/tmp/source/log/%Y-%m-%d-%H-%M_errors_.txt",
+    "progress": "/tmp/source/log/%Y-%m-%d-%H-%M_progress.txt"
+  }
+}
