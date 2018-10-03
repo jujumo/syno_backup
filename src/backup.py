@@ -79,9 +79,13 @@ def backup(args):
             with open(error_filepath, 'r') as error_file:
                 last_error = error_file.readlines()[-1].decode()
                 user_message = 'finished with errors on save of {}: {}'.format(rule.source.dirpath, last_error)
+    else:
+        user_message = 'done'
 
     notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(rule.source.dirpath), user_message]
     call(notify_command)
+
+
 
     logging.debug('done')
 
