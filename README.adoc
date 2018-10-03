@@ -1,0 +1,13 @@
+# syno_backup
+
+`syno_backup` simplify incremental backup on my synology NAS.
+It is a basic python code wrapped around rsync.
+
+## usage
+
+[source,sh]
+python src/backup.py -c config/test.json
+
+## cron it
+
+to do

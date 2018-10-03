@@ -1,0 +1,5 @@
+#pycharm artifacts 
+.idea
+
+# syno_backup artifats
+log/*
