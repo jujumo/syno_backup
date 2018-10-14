@@ -135,6 +135,30 @@ class LogTest(unittest.TestCase):
         self.assertEqual(config['log']['progress'], rule.log.get_progress_filepath(now))
         self.assertEqual(config['log']['error'], rule.log.get_error_filepath(now))
 
+    def test_dated(self):
+        config = {
+          "source": {
+            "dirpath": "source_path"
+          },
+          "dest": {
+            "dirpath": "destination_path"
+          },
+          "options": {},
+           "log": {
+                "success": "%Y-%m-%d-%H-%M_log.txt",
+                "error": "%Y-%m-%d-%H-%M_errors.txt",
+                "progress": "%Y-%m-%d-%H-%M_progress.txt"
+           }
+        }
+        rule = Rule(config)
+        now = datetime.datetime(2012, 9, 16, 0, 0)
+        args = rule.get_optional_args(now) + rule.get_positional_args(now)
+        logging.debug(args)
+        self.assertIn('--log-file=2012-09-16-00-00_log.txt', args)
+        self.assertEqual('2012-09-16-00-00_log.txt', rule.log.get_sucess_filepath(now))
+        self.assertEqual('2012-09-16-00-00_progress.txt', rule.log.get_progress_filepath(now))
+        self.assertEqual('2012-09-16-00-00_errors.txt', rule.log.get_error_filepath(now))
+
 
 if __name__ == '__main__':
     if __debug__:
