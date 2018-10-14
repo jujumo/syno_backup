@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from subprocess import call, Popen, PIPE
-from os.path import join, basename, exists, dirname
+from os.path import realpath, basename, exists, dirname
 import datetime
 from argparse import ArgumentParser
 from os import makedirs, stat, remove, devnull
@@ -16,7 +16,6 @@ rsync_always = [
         '--delete',             # remove deleted dirs
         '--delete-excluded',    # also delete the excluded files
         '--force',              # force deletion of dirs even if not empty
-        '--progress',           # output progress as it goes on stdout
         '--no-owner',           # do not check ownership changes
         '--no-group',           # do not check ownership changes
         '--no-perms',           # do not check permission changes
@@ -82,7 +81,7 @@ def backup(args):
     else:
         user_message = 'done'
 
-    notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(basename(rule.source.dirpath)), user_message]
+    notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(basename(realpath(rule.source.dirpath))), user_message]
     call(notify_command)
 
     logging.debug('done')

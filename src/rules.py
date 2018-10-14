@@ -175,6 +175,8 @@ class Log(RSyncOption):
     # @abstractmethod
     def get_optional_args(self, timestamp):
         args = []
+        if self.progress:
+            args += ['--progress']
         if self.success:
             args += ['--log-file={}'.format(path_timestamps(self.success, timestamp))]
         return args

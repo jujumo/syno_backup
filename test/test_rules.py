@@ -111,6 +111,23 @@ class VersionTest(unittest.TestCase):
 
 
 class LogTest(unittest.TestCase):
+    def test_no(self):
+        config = {
+          "source": {
+            "dirpath": "source_path"
+          },
+          "dest": {
+            "dirpath": "destination_path"
+          },
+          "options": {}
+        }
+        rule = Rule(config)
+        now = datetime.datetime(2012, 9, 16, 0, 0)
+        args = rule.get_optional_args(now) + rule.get_positional_args(now)
+        logging.debug(args)
+        self.assertFalse(any(a.startswith('--log-file=') for a in args))
+        self.assertFalse(any(a.startswith('--progress') for a in args))
+
     def test_basic(self):
         config = {
           "source": {
@@ -131,6 +148,7 @@ class LogTest(unittest.TestCase):
         args = rule.get_optional_args(now) + rule.get_positional_args(now)
         logging.debug(args)
         self.assertIn('--log-file={}'.format(config['log']['success']), args)
+        self.assertIn('--progress', args)
         self.assertEqual(config['log']['success'], rule.log.get_sucess_filepath(now))
         self.assertEqual(config['log']['progress'], rule.log.get_progress_filepath(now))
         self.assertEqual(config['log']['error'], rule.log.get_error_filepath(now))
