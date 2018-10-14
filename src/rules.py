@@ -82,7 +82,7 @@ class Ssh(RSyncOption):
         return args
 
 
-class TargetLocal(RSyncOption):
+class Source(RSyncOption):
     @classmethod
     def members(cls):
         return [
@@ -100,11 +100,17 @@ class TargetLocal(RSyncOption):
         args = ''
         if self.ssh:
             args += self.ssh.get_positional_prepend()
-        args += path_timestamps(self.dirpath, timestamp) + '/'
+        source_dirpath = self.dirpath
+        # replace date wildcard
+        source_dirpath = path_timestamps(source_dirpath, timestamp)
+        # make sur there is a trailing / to copy only content
+        if not source_dirpath.endswith('/'):
+            source_dirpath = source_dirpath + '/'
+        args += source_dirpath
         return [args]
 
 
-class TargetRemote(RSyncOption):
+class Destination(RSyncOption):
     @classmethod
     def members(cls):
         return [
@@ -128,7 +134,10 @@ class TargetRemote(RSyncOption):
         args = ''
         if self.ssh:
             args += self.ssh.get_positional_prepend()
-        args += path_timestamps(self.dirpath, timestamp) + '/'
+        source_dirpath = self.dirpath
+        # replace date wildcard
+        source_dirpath = path_timestamps(source_dirpath, timestamp)
+        args += source_dirpath
         return [args]
 
 
@@ -186,8 +195,8 @@ class Rule(RSyncOption):
         return [
             ArgDefinition('options', required=True, atype=Options),
             ArgDefinition('log', required=False, atype=Log),
-            ArgDefinition('source', required=True, atype=TargetLocal),
-            ArgDefinition('dest', required=True, atype=TargetRemote),
+            ArgDefinition('source', required=True, atype=Source),
+            ArgDefinition('dest', required=True, atype=Destination),
         ]
 
 
