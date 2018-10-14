@@ -6,7 +6,23 @@ It is a basic python code wrapped around rsync.
 ## usage
 
 [source,sh]
-python src/backup.py -c config/test.json
+python src/backup.py -c config/sample_mirror.json
+
+.help
+[source,python]
+----
+usage: backup.py [-h] [-v] -c CONFIG [-n] [-d]
+
+Launch rsync for the given config file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --verbose         verbose message
+  -c CONFIG, --config CONFIG
+                        config file path
+  -n, --dryrun          dry-run rsync
+  -d, --debug           print the rsync command
+----
 
 ## cron it
 
