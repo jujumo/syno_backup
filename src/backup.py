@@ -82,13 +82,10 @@ def backup(args):
     else:
         user_message = 'done'
 
-    notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(rule.source.dirpath), user_message]
+    notify_command = ['synodsmnotify', '@administrators', 'Backup {}'.format(basename(rule.source.dirpath)), user_message]
     call(notify_command)
 
-
-
     logging.debug('done')
-
 
 
 def main():
