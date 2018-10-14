@@ -15,7 +15,6 @@ rsync_always = [
         '--compress',           # compress for remote transfer
         '--delete',             # remove deleted dirs
         '--delete-excluded',    # also delete the excluded files
-        '--force',              # force deletion of dirs even if not empty
         '--no-owner',           # do not check ownership changes
         '--no-group',           # do not check ownership changes
         '--no-perms',           # do not check permission changes

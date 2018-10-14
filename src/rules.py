@@ -45,14 +45,17 @@ class RSyncOption:
         r += '}'
         return r
 
+    def get_children(self):
+        return [self.__dict__.get(c.key) for c in self.members() if isinstance(self.__dict__.get(c.key), RSyncOption)]
+
     # @abstractmethod
     def get_optional_args(self, timestamp):
-        args = [a for m in self.members() if m.atype and self.__dict__.get(m.key) for a in self.__dict__[m.key].get_optional_args(timestamp)]
+        args = [arg for c in self.get_children() for arg in c.get_optional_args(timestamp)]
         return args
 
     # @abstractmethod
     def get_positional_args(self, timestamp):
-        args = [a for m in self.members() if m.atype and self.__dict__.get(m.key) for a in self.__dict__[m.key].get_positional_args(timestamp)]
+        args = [arg for c in self.get_children() for arg in c.get_positional_args(timestamp)]
         return args
 
 
@@ -148,6 +151,7 @@ class Options(RSyncOption):
             ArgDefinition('exclude'),
             ArgDefinition('dryrun', default=False),
             ArgDefinition('timeout', default=800),
+            ArgDefinition('force', atype=bool, default=True),
         ]
 
     # @abstractmethod
@@ -156,6 +160,8 @@ class Options(RSyncOption):
         if self.exclude:
             for d in self.exclude:
                 args += ['--exclude', d]
+        if self.force:
+            args += ['--force']
         if self.dryrun:
             args += ['--dry-run']
         if self.timeout:

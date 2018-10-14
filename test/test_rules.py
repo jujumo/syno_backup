@@ -178,6 +178,24 @@ class LogTest(unittest.TestCase):
         self.assertEqual('2012-09-16-00-00_errors.txt', rule.log.get_error_filepath(now))
 
 
+
+class OptionsTest(unittest.TestCase):
+    config = {
+        "source": {
+            "dirpath": "source_path"
+        },
+        "dest": {
+            "dirpath": "destination_path"
+        },
+        "options": {}
+    }
+    rule = Rule(config)
+    now = datetime.datetime(2012, 9, 16, 0, 0)
+    args = rule.get_optional_args(now) + rule.get_positional_args(now)
+    logging.debug(args)
+    print(args)
+
+
 if __name__ == '__main__':
     if __debug__:
         logging.getLogger().setLevel(logging.DEBUG)
