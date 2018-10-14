@@ -20,6 +20,9 @@ def backup(args):
     with open(args.config) as config_file:
         config = json.load(config_file)
     rule = Rule(config)
+    if args.dryrun:
+        # dryrun does not work anymore ('it is dry-run now)
+        raise NotImplementedError('dryrun does not work anymore (it is dry-run now)')
     rule.options.dryrun = args.dryrun
 
     now = datetime.datetime.now()
@@ -78,7 +81,7 @@ def main():
         parser = ArgumentParser(description='Launch rsync for the given config file.')
         parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
         parser.add_argument('-c', '--config', required=True, help='config file path')
-        parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
+        # parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
         parser.add_argument('-d', '--debug', action='store_true', help='print the rsync command')
         args = parser.parse_args()
 
