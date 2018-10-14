@@ -149,9 +149,17 @@ class Options(RSyncOption):
     def members(cls):
         return [
             ArgDefinition('exclude'),
-            ArgDefinition('dryrun', default=False),
             ArgDefinition('timeout', default=800),
+            ArgDefinition('dry-run', atype=bool, default=False),
             ArgDefinition('force', atype=bool, default=True),
+            ArgDefinition('archive', atype=bool, default=True),             # = -rlptgoD
+            ArgDefinition('compress', atype=bool, default=True),            # compress for remote transfer
+            ArgDefinition('delete', atype=bool, default=True),              # remove deleted dirs
+            ArgDefinition('delete-excluded', atype=bool, default=True),     # also delete the excluded files
+            ArgDefinition('no-owner', atype=bool, default=True),            # do not check ownership changes  TODO: move it to some FAT32 related thing
+            ArgDefinition('no-group', atype=bool, default=True),            # do not check ownership changes  TODO: move it to some FAT32 related thing
+            ArgDefinition('no-perms', atype=bool, default=True),            # do not check permission changes  TODO: move it to some FAT32 related thing
+            ArgDefinition('one-file-system', atype=bool, default=True),     # Do not cross filesystem boundaries when recursing: for security reasons
         ]
 
     # @abstractmethod
@@ -160,12 +168,15 @@ class Options(RSyncOption):
         if self.exclude:
             for d in self.exclude:
                 args += ['--exclude', d]
-        if self.force:
-            args += ['--force']
-        if self.dryrun:
-            args += ['--dry-run']
+
         if self.timeout:
             args += ['--timeout={}'.format(self.timeout)]
+
+        # retrieve all boolean options
+        activations = (m for m in self.members() if m.atype is bool) # get bool members
+        activations = (m.key for m in activations if self.__dict__.get(m.key, False))  # filter the ones to true
+        activations = [f'--{m}' for m in activations]  # format with --
+        args += activations
         return args
 
 
@@ -184,6 +195,7 @@ class Log(RSyncOption):
         if self.progress:
             args += ['--progress']
         if self.success:
+            args += ['--itemize-changes']  # display the actions to be taken before starting
             args += ['--log-file={}'.format(path_timestamps(self.success, timestamp))]
         return args
 

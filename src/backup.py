@@ -10,19 +10,6 @@ from rules import Rule
 import json
 import sys
 
-rsync_always = [
-        '--archive',            # = -rlptgoD
-        '--compress',           # compress for remote transfer
-        '--delete',             # remove deleted dirs
-        '--delete-excluded',    # also delete the excluded files
-        '--no-owner',           # do not check ownership changes
-        '--no-group',           # do not check ownership changes
-        '--no-perms',           # do not check permission changes
-        '--modify-window=1',    # allow slight timestamp variation (since fat32 is not very precise)
-        '--itemize-changes',    # display the actions to be taken before starting
-        '--one-file-system',    # Do not cross filesystem boundaries when recursing: for security reasons
-]
-
 
 def make_dirpath(filepath):
     if not exists(dirname(filepath)):
@@ -36,7 +23,7 @@ def backup(args):
     rule.options.dryrun = args.dryrun
 
     now = datetime.datetime.now()
-    rsync_command = ['rsync'] + rsync_always + rule.get_optional_args(now) + rule.get_positional_args(now)
+    rsync_command = ['rsync'] + rule.get_optional_args(now) + rule.get_positional_args(now)
 
     # create dirs fro log files
     success_filepath = rule.log.get_sucess_filepath(now)
