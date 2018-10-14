@@ -3,3 +3,5 @@
 
 # syno_backup artifats
 log/*
+
+__pycache__
