@@ -2,6 +2,9 @@ import datetime
 
 
 class ArgDefinition:
+    """
+    ArgDefinition contains options key/values. Values are of type 'atype'.
+    """
     def __init__(self, key, atype=None, required=False, default=None):
         self.key = key
         self.atype = atype
@@ -19,6 +22,9 @@ def path_timestamps(path, timestamp):
 
 
 class RSyncOption:
+    """
+    Base class for parsing: transforms JSON to ArgDefinition.
+    """
     @classmethod
     def members(cls):
         return []
@@ -50,16 +56,29 @@ class RSyncOption:
 
     # @abstractmethod
     def get_optional_args(self, timestamp):
+        """
+        returns the list of arguments to be placed in the optional part of RSYNC command line.
+        :param timestamp: the actual timestamp to be used in arguments using it (eg. name of log files)
+        :return: list of string
+        """
         args = [arg for c in self.get_children() for arg in c.get_optional_args(timestamp)]
         return args
 
     # @abstractmethod
     def get_positional_args(self, timestamp):
+        """
+        returns the list of arguments to be placed in the positional part of RSYNC command line.
+        :param timestamp: the actual timestamp to be used in arguments using it (eg. name of log files)
+        :return: list of string
+        """
         args = [arg for c in self.get_children() for arg in c.get_positional_args(timestamp)]
         return args
 
 
 class Ssh(RSyncOption):
+    """
+    parsing SSH section
+    """
     @staticmethod
     def members():
         return [
@@ -86,6 +105,9 @@ class Ssh(RSyncOption):
 
 
 class Source(RSyncOption):
+    """
+    parsing Source folder section
+    """
     @classmethod
     def members(cls):
         return [
@@ -114,6 +136,9 @@ class Source(RSyncOption):
 
 
 class Destination(RSyncOption):
+    """
+    parsing Destination folder section
+    """
     @classmethod
     def members(cls):
         return [
@@ -145,6 +170,9 @@ class Destination(RSyncOption):
 
 
 class Options(RSyncOption):
+    """
+    parsing Options section
+    """
     @classmethod
     def members(cls):
         return [
@@ -181,6 +209,9 @@ class Options(RSyncOption):
 
 
 class Log(RSyncOption):
+    """
+    parsing Logging section
+    """
     @classmethod
     def members(cls):
         return [
@@ -210,6 +241,9 @@ class Log(RSyncOption):
 
 
 class Rule(RSyncOption):
+    """
+    parsing the root section
+    """
     @classmethod
     def members(cls):
         return [
