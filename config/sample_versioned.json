@@ -7,7 +7,7 @@
 	"backup": "/tmp/dest/%Y-%m-%d-%H-%M"
   },
   "options": {
-    "exclude": ["temp", "Thumbs.db", "log"]
+    "exclude": ["temp", "Thumbs.db", "log", "@eaDir", "#recycle"]
   },
   "log": {
     "success": "/tmp/source/log/%Y-%m-%d-%H-%M_log.txt",
