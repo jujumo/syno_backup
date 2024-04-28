@@ -1,12 +1,21 @@
-# syno_backup
+= syno_backup
 
-`syno_backup` simplify incremental backup on my synology NAS.
-It is a basic python code wrapped around rsync.
+`syno_backup` simplify incremental backup on my synology NAS (or any linux with python and rsync).
+It is a basic **python** script wrapped around **rsync**.
 
-## usage
+flat layout
+
+== prerequisite
+
+- python 3
+- rsync
+
+== usage
 
 [source,sh]
-python src/backup.py -c config/sample_mirror.json
+----
+$> python src/backup.py -c config/sample_mirror.json
+----
 
 .help
 [source,python]
@@ -24,6 +33,10 @@ optional arguments:
   -d, --debug           print the rsync command
 ----
 
-## cron it
+== config
 
-to do
+== automated task
+
+Synology use ist own mechanism for task automation, other than `cron`.
+
+

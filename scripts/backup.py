@@ -6,9 +6,10 @@ import datetime
 from argparse import ArgumentParser
 from os import makedirs, stat, remove, devnull
 import logging
-from rules import Rule
 import json
 import sys
+
+from syno_backup.rules import Rule
 
 
 def make_dirpath(filepath):
@@ -28,7 +29,7 @@ def backup(args):
     now = datetime.datetime.now()
     rsync_command = ['rsync'] + rule.get_optional_args(now) + rule.get_positional_args(now)
 
-    # create dirs fro log files
+    # create dirs from log files
     success_filepath = rule.log.get_sucess_filepath(now)
     if not args.debug and success_filepath:
         make_dirpath(success_filepath)

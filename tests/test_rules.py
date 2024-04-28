@@ -6,7 +6,7 @@ import sys
 
 ROOT_PATH = path.dirname(path.dirname(path.realpath(__file__)))
 sys.path.append(path.join(ROOT_PATH, 'src'))
-from rules import *
+from syno_backup.rules import *
 
 
 class SourceTest(unittest.TestCase):
@@ -205,7 +205,7 @@ class OptionsTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-        logging.getLogger().setLevel(logging.DEBUG)
-
+    logging.getLogger().setLevel(logging.DEBUG)
     unittest.main()
+
 
