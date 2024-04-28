@@ -205,7 +205,6 @@ class OptionsTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-        logging.getLogger().setLevel(logging.DEBUG)
-
+    logging.getLogger().setLevel(logging.DEBUG)
     unittest.main()
 
