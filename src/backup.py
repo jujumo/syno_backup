@@ -81,7 +81,7 @@ def main():
         parser = ArgumentParser(description='Launch rsync for the given config file.')
         parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
         parser.add_argument('-c', '--config', required=True, help='config file path')
-        # parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
+        parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
         parser.add_argument('-d', '--debug', action='store_true', help='print the rsync command')
         args = parser.parse_args()
 
