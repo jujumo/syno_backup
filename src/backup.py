@@ -17,11 +17,11 @@ def make_dirpath(filepath):
 
 
 def backup(args):
-    with open(args.config) as config_file:
+    with open(args.config, encoding='utf-8') as config_file:
         config = json.load(config_file)
     rule = Rule(config)
     if args.dryrun:
-        # dryrun does not work anymore ('it is dry-run now)
+        # dryrun does not work anymore (it is dry-run now)
         raise NotImplementedError('dryrun does not work anymore (it is dry-run now)')
     rule.options.dryrun = args.dryrun
 
@@ -64,8 +64,8 @@ def backup(args):
             remove(error_filepath)
             user_message = 'sucessfull save of {}.'.format(rule.source.dirpath)
         else:
-            with open(error_filepath, 'r') as error_file:
-                last_error = error_file.readlines()[-1].decode()
+            with open(error_filepath, 'r', encoding='utf-8') as error_file:
+                last_error = error_file.readlines()[-1]
                 user_message = 'finished with errors on save of {}: {}'.format(rule.source.dirpath, last_error)
     else:
         user_message = 'done'
@@ -81,7 +81,7 @@ def main():
         parser = ArgumentParser(description='Launch rsync for the given config file.')
         parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
         parser.add_argument('-c', '--config', required=True, help='config file path')
-        parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
+        # parser.add_argument('-n', '--dryrun', action='store_true', help='dry-run rsync')
         parser.add_argument('-d', '--debug', action='store_true', help='print the rsync command')
         args = parser.parse_args()
 
